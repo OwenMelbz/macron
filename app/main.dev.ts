@@ -12,7 +12,6 @@ import path from 'path';
 import { app, BrowserWindow, nativeTheme } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import MenuBuilder from './menu';
 import store from './utils/store';
 
 store.set('theme', nativeTheme.shouldUseDarkColors ? 'dark' : 'light');
