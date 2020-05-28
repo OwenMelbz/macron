@@ -93,6 +93,7 @@ const createWindow = async () => {
 
   mainWindow.on('closed', () => {
     mainWindow = null;
+    app.quit();
   });
 
   // Remove this if your app does not use auto updates
