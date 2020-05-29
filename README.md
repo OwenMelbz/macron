@@ -6,7 +6,7 @@
 
 For me, CronniX had been the go to simple GUI for managing my local crons, but sadly this is no longer suported, so here is a modern alternative for those who still want it.
 
-![https://github.com/OwenMelbz/macron/blob/master/screenshot.jpg?raw=true](Screenshot)
+![https://i.ibb.co/Qnyx4Sh/screenshot.jpg](Screenshot)
 
 
 ## Privacy Policy & Terms of Use
