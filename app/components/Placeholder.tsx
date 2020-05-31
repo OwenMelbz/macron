@@ -16,7 +16,7 @@ function Placeholder({ onCreate }) {
         status="500"
         title="Nothing to see."
         subTitle="Pick job or create a new one from the left."
-        extra={StartButton}
+        extra={StartButton()}
       />
     </div>
   );
