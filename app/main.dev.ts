@@ -9,10 +9,11 @@
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, nativeTheme } from 'electron';
+import { app, BrowserWindow, nativeTheme, TouchBar } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import store from './utils/store';
+import { fire } from './utils/events';
 
 store.set('theme', nativeTheme.shouldUseDarkColors ? 'dark' : 'light');
 
@@ -95,6 +96,18 @@ const createWindow = async () => {
     mainWindow = null;
     app.quit();
   });
+
+  const newJobButton = new TouchBar.TouchBarButton({
+    label: 'Create Job',
+    backgroundColor: '#377ed5',
+    click: () => fire('touchbar-create')
+  });
+
+  const touchBar = new TouchBar({
+    items: [newJobButton]
+  });
+
+  mainWindow.setTouchBar(touchBar);
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line

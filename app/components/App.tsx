@@ -5,12 +5,14 @@ import { message, Modal, Spin } from 'antd';
 import Placeholder from './Placeholder';
 import Sidebar from './Sidebar';
 import Editor from './Editor';
+import { off, on } from '../utils/events';
+
+window.api = null;
 
 function App() {
   const [loaded, setLoaded] = useState(false);
   const [jobs, setJobs] = useState([]);
   const [job, setJob] = useState(null);
-  const [api, setApi] = useState(null);
 
   const makeJob = (j, key) => ({
     job: j,
@@ -19,22 +21,28 @@ function App() {
   });
 
   const connect = (selected = null) => {
-    crontab.load((err, _api) => {
-      if (err) {
-        return message.error(err);
-      }
+    return new Promise((resolve, reject) => {
+      crontab.load((err, _api) => {
+        if (err) {
+          message.error(err);
 
-      setApi(_api);
+          return reject(err);
+        }
 
-      const js = _api.jobs().map(j => makeJob(j, v4()));
+        window.api = _api;
 
-      if (selected) {
-        const active = js.find(j => j.name === selected.name);
-        setJob(active);
-      }
+        const js = api.jobs().map(j => makeJob(j, v4()));
 
-      setJobs(js);
-      return setLoaded(true);
+        if (selected) {
+          const active = js.find(j => j.name === selected.name);
+          setJob(active);
+        }
+
+        setJobs(js);
+        setLoaded(true);
+
+        return resolve(js);
+      });
     });
   };
 
@@ -98,6 +106,10 @@ function App() {
 
   useEffect(() => {
     connect();
+
+    on('touchbar-create', onCreate);
+
+    return () => off('touchbar-create', onCreate);
   }, []);
 
   return (
